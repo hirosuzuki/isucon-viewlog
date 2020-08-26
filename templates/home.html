@@ -1,0 +1,35 @@
+<body>
+
+    <head>
+        <link rel="stylesheet" href="/static/stylize.css" />
+        <link rel="stylesheet" href="/static/common.css" />
+    </head>
+
+    <body>
+        <h1>
+            <img src="/static/isucon.jpg" width="40" height="40" style="vertical-align: sub;">
+            ISUCONログ
+        </h1>
+        <table>
+            <tr>
+                <th>Trace ID</th>
+                <th>実行時刻</th>
+                <th colspan="7">操作</th>
+            </tr>
+            {{ range $trace := .traces }}
+            <tr>
+                <td>{{ $trace.ID }}</td>
+                <td>{{ $trace.ExecAt.Format "2016-01-02 15:04:05" }}</td>
+                <td><a href="/kataribe/?id={{ $trace.ID }}" target="_blank">Kataribe</a></td>
+                <td><a href="/sqlparse/?id={{ $trace.ID }}" target="_blank">SQLログ解析</a></td>
+                <td><a href="/perfparse/?id={{ $trace.ID }}" target="_blank">Perfログ解析</a></td>
+                <td><a href="/vmstat/?id={{ $trace.ID }}" target="_blank">vmstat</a></td>
+                <td><a href="/accesslog/?id={{ $trace.ID }}" target="_blank">Access Log ({{ $trace.AccessLogSize }}B)</a></td>
+                <td><a href="/sqllog/?id={{ $trace.ID }}" target="_blank">SQL Log ({{ $trace.SQLLogSize }}B)</a></td>
+                <td><a href="/perflog/?id={{ $trace.ID }}" target="_blank">Perf Log ({{ $trace.PerfLogSize }}B)</a></td>
+            </tr>
+            {{ end }}
+        </table>
+
+    </body>
+</body>
