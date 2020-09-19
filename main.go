@@ -43,6 +43,7 @@ type Trace struct {
 	AccessLogSize int64
 	SQLLogSize    int64
 	PerfLogSize   int64
+	WRLogSize     int64
 	ExecAt        time.Time
 }
 
@@ -75,6 +76,7 @@ func getTraces() []Trace {
 			trace.AccessLogSize = getFileSize("./logs/" + traceID + "/access.log")
 			trace.SQLLogSize = getFileSize("./logs/" + traceID + "/sql.log")
 			trace.PerfLogSize = getFileSize("./logs/" + traceID + "/perf.log")
+			trace.WRLogSize = getFileSize("./logs/" + traceID + "/webroute.log")
 			traceList = append(traceList, trace)
 		}
 	}
@@ -117,6 +119,14 @@ func perfparseHandler(w http.ResponseWriter, r *http.Request) {
 	parseHandler(w, r, "perf.log", "./parse_log.py")
 }
 
+func wrparseHandler(w http.ResponseWriter, r *http.Request) {
+	parseHandler(w, r, "webroute.log", "./parse_log.py")
+}
+
+func ptQueryDigestHandler(w http.ResponseWriter, r *http.Request) {
+	parseHandler(w, r, "mysql-slow.log", "pt-query-digest")
+}
+
 func outputFileHandler(w http.ResponseWriter, r *http.Request, filename string) {
 	r.ParseForm()
 	id := r.FormValue("id")
@@ -153,6 +163,10 @@ func perflogHandler(w http.ResponseWriter, r *http.Request) {
 	outputFileHandler(w, r, "perf.log")
 }
 
+func wrlogHandler(w http.ResponseWriter, r *http.Request) {
+	outputFileHandler(w, r, "webroute.log")
+}
+
 func loggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.Println(r.RequestURI)
@@ -177,10 +191,12 @@ func main() {
 	r.HandleFunc("/alp/", alpHandler)
 	r.HandleFunc("/sqlparse/", sqlparseHandler)
 	r.HandleFunc("/perfparse/", perfparseHandler)
-	r.HandleFunc("/vmstat/", vmstatHandler)
+	r.HandleFunc("/ptquery/", ptQueryDigestHandler)
+	r.HandleFunc("/wrparse/", wrparseHandler)
 	r.HandleFunc("/accesslog/", accesslogHandler)
 	r.HandleFunc("/sqllog/", sqllogHandler)
 	r.HandleFunc("/perflog/", perflogHandler)
+	r.HandleFunc("/wrlog/", wrlogHandler)
 
 	r.Use(loggingMiddleware)
 

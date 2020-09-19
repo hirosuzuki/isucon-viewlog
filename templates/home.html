@@ -14,20 +14,22 @@
             <tr>
                 <th>Trace ID</th>
                 <th>実行時刻</th>
-                <th colspan="7">操作</th>
+                <th colspan="10">操作</th>
             </tr>
             {{ range $trace := .traces }}
             <tr>
                 <td>{{ $trace.ID }}</td>
-                <td>{{ $trace.ExecAt.Format "2016-01-02 15:04:05" }}</td>
+                <td>{{ $trace.ExecAt.Format "2006-01-02 15:04:05" }}</td>
                 <td><a href="/kataribe/?id={{ $trace.ID }}" target="_blank">Kataribe</a></td>
                 <td><a href="/alp/?id={{ $trace.ID }}" target="_blank">Alp</a></td>
                 <td><a href="/sqlparse/?id={{ $trace.ID }}" target="_blank">SQLログ解析</a></td>
                 <td><a href="/perfparse/?id={{ $trace.ID }}" target="_blank">Perfログ解析</a></td>
-                <td><a href="/vmstat/?id={{ $trace.ID }}" target="_blank">vmstat</a></td>
+                <td><a href="/wrparse/?id={{ $trace.ID }}" target="_blank">WebRouteログ解析</a></td>
+                <td><a href="/ptquery/?id={{ $trace.ID }}" target="_blank">pt-query-digest</a></td>
                 <td><a href="/accesslog/?id={{ $trace.ID }}" target="_blank">Access Log ({{ $trace.AccessLogSize }}B)</a></td>
                 <td><a href="/sqllog/?id={{ $trace.ID }}" target="_blank">SQL Log ({{ $trace.SQLLogSize }}B)</a></td>
                 <td><a href="/perflog/?id={{ $trace.ID }}" target="_blank">Perf Log ({{ $trace.PerfLogSize }}B)</a></td>
+                <td><a href="/wrlog/?id={{ $trace.ID }}" target="_blank">WebRoute Log ({{ $trace.WRLogSize }}B)</a></td>
             </tr>
             {{ end }}
         </table>
