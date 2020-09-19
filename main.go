@@ -105,6 +105,10 @@ func kataribeHandler(w http.ResponseWriter, r *http.Request) {
 	parseHandler(w, r, "access.log", "./kataribe")
 }
 
+func alpHandler(w http.ResponseWriter, r *http.Request) {
+	parseHandler(w, r, "access.log", "./alp.sh")
+}
+
 func sqlparseHandler(w http.ResponseWriter, r *http.Request) {
 	parseHandler(w, r, "sql.log", "./parse_log.py")
 }
@@ -170,6 +174,7 @@ func main() {
 
 	r.HandleFunc("/", homeHandler)
 	r.HandleFunc("/kataribe/", kataribeHandler)
+	r.HandleFunc("/alp/", alpHandler)
 	r.HandleFunc("/sqlparse/", sqlparseHandler)
 	r.HandleFunc("/perfparse/", perfparseHandler)
 	r.HandleFunc("/vmstat/", vmstatHandler)

@@ -21,6 +21,7 @@
                 <td>{{ $trace.ID }}</td>
                 <td>{{ $trace.ExecAt.Format "2016-01-02 15:04:05" }}</td>
                 <td><a href="/kataribe/?id={{ $trace.ID }}" target="_blank">Kataribe</a></td>
+                <td><a href="/alp/?id={{ $trace.ID }}" target="_blank">Alp</a></td>
                 <td><a href="/sqlparse/?id={{ $trace.ID }}" target="_blank">SQLログ解析</a></td>
                 <td><a href="/perfparse/?id={{ $trace.ID }}" target="_blank">Perfログ解析</a></td>
                 <td><a href="/vmstat/?id={{ $trace.ID }}" target="_blank">vmstat</a></td>
